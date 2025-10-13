@@ -118,4 +118,3 @@ class ThemeAndLocaleProvider extends ChangeNotifier {
     await prefs.setString('localeCode', _locale.languageCode);
   }
 }
-C:\Users\usuario\Desktop\DAM\mobiles\proyecto\proyecto_1\lib\main.dart
