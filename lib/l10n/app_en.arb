@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "appTitle": "My First App",
+  "settings": "Settings",
+  "darkMode": "Dark Mode",
+  "darkModeSubtitle": "Enable or disable dark mode",
+  "language": "Language",
+  "spanish": "Spanish",
+  "english": "English"
+}
