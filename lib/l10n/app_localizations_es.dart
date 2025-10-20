@@ -28,4 +28,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get english => 'Inglés';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get email => 'email';
+
+  @override
+  String get password => 'contraseña';
 }

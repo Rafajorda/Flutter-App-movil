@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyecto_1/core/extensions/context_localization.dart';
+import 'package:proyecto_1/features/login/login_page.dart';
 import 'package:proyecto_1/l10n/app_localizations.dart';
+import 'package:proyecto_1/providers/theme_and_locale_provider.dart';
 import 'core/widgets/flutter3dViewer.dart';
 import 'features/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeAndLocaleProvider(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeAndLocaleProvider>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncThemeState = ref.watch(themeAndLocaleProvider);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      themeMode: provider.currentTheme,
-      locale: provider.currentLocale,
+      themeMode: asyncThemeState.value?.themeMode ?? ThemeMode.light,
+      locale: asyncThemeState.value?.locale ?? const Locale('es'),
       supportedLocales: const [Locale('en'), Locale('es')],
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -50,6 +48,17 @@ class MyHomePage extends StatelessWidget {
         title: Text(context.loc!.appTitle),
         backgroundColor: const Color.fromARGB(255, 26, 0, 226),
         actions: [
+          // Botón de login
+          IconButton(
+            icon: const Icon(Icons.login),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+          ),
+          // Botón de configuración
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {

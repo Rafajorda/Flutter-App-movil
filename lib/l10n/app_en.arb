@@ -6,5 +6,8 @@
   "darkModeSubtitle": "Enable or disable dark mode",
   "language": "Language",
   "spanish": "Spanish",
-  "english": "English"
+  "english": "English",
+  "login": "Login",
+  "email": "Email",
+  "password": "password"
 }
