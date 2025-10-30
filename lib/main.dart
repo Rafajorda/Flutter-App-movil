@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyecto_1/core/extensions/context_localization.dart';
+import 'package:proyecto_1/core/widgets/3d/3dcard.dart';
 import 'package:proyecto_1/features/login/login_page.dart';
 import 'package:proyecto_1/l10n/app_localizations.dart';
 import 'package:proyecto_1/providers/theme_and_locale_provider.dart';
-import 'core/widgets/flutter3dViewer.dart';
 import 'features/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,18 +70,50 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Card(
-              child: SizedBox(
-                height: 300,
-                width: double.infinity,
-                child: Custom3DViewer(src: 'assets/3d/radio.glb'),
-              ),
-            ),
-          ],
-        ),
+      body: ListView(
+        padding: const EdgeInsets.all(12),
+        children: const [
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+          Product3DCard(
+            title: "Radiorreceptor Antiguo",
+            description: "Radiorreceptor de los años 80 metalico ruso.",
+            modelUrl: "assets/3d/radio.glb",
+          ),
+        ],
       ),
     );
   }
