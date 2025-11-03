@@ -3,32 +3,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyecto_1/core/extensions/context_localization.dart';
 import 'package:proyecto_1/core/widgets/button.dart';
 import 'package:proyecto_1/providers/auth_provider.dart';
-import 'package:proyecto_1/features/login/register_page.dart';
 import 'package:proyecto_1/features/home/home_page.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleRegister() async {
+    final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -41,7 +43,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     final authNotifier = ref.read(authProvider.notifier);
-    await authNotifier.login(email, password);
+    await authNotifier.register(name, email, password);
 
     // Verificar el resultado
     final authState = ref.read(authProvider);
@@ -49,7 +51,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
 
     if (authState.isAuthenticated) {
-      // Login exitoso - navegar a home y eliminar login del stack
+      // Registro exitoso - navegar a home y eliminar registro/login del stack
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const MyHomePage()),
         (route) => false,
@@ -71,19 +73,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.loc?.login ?? 'Login'),
-        // Siempre mostrar botón de retroceso (login es opcional)
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: Text(context.loc?.register ?? 'Registro'),
+        // Siempre mostrar botón de retroceso
+        automaticallyImplyLeading: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Campo de email
+            TextField(
+              controller: nameController,
+              enabled: !authState.isLoading,
+              decoration: InputDecoration(
+                labelText: context.loc?.name ?? 'Name',
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 16),
+
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
@@ -96,7 +105,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 16),
 
-            // Campo de contraseña
             TextField(
               controller: passwordController,
               obscureText: true,
@@ -106,11 +114,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 border: const OutlineInputBorder(),
                 prefixIcon: const Icon(Icons.lock),
               ),
-              onSubmitted: (_) => _handleLogin(),
+              onSubmitted: (_) => _handleRegister(),
             ),
             const SizedBox(height: 24),
 
-            // Botón de login
             SizedBox(
               width: double.infinity,
               child: authState.isLoading
@@ -126,36 +133,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     )
                   : GeneralButton(
-                      label: context.loc?.login ?? 'Login',
-                      onPressed: _handleLogin,
-                      icon: Icons.login,
+                      label: context.loc?.register ?? 'Register',
+                      onPressed: _handleRegister,
+                      icon: Icons.person_add,
                     ),
             ),
 
             const SizedBox(height: 16),
 
-            // Enlace a registro
-            TextButton(
-              onPressed: authState.isLoading
-                  ? null
-                  : () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      );
-                    },
-              child: Text(
-                context.loc?.noAccount ?? "Don't have an account? Sign up",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            // Botón "Cancelar" para volver (siempre visible - login es opcional)
+            // Botón "Cancelar" para volver (siempre visible)
             TextButton(
               onPressed: authState.isLoading
                   ? null

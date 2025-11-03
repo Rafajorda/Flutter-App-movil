@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "My First App",
+  "appTitle": "HomeNest",
   "settings": "Settings",
   "darkMode": "Dark Mode",
   "darkModeSubtitle": "Enable or disable dark mode",
@@ -8,6 +8,37 @@
   "spanish": "Spanish",
   "english": "English",
   "login": "Login",
+  "register": "Register",
   "email": "Email",
-  "password": "password"
+  "password": "Password",
+  "name": "Name",
+  "noAccount": "Don't have an account? Sign up",
+  "cancel": "Cancel",
+  "completeAllFields": "Please complete all fields",
+  "incorrectCredentials": "Incorrect credentials",
+  "registrationError": "Error registering user. Check the data.",
+  "logout": "Logout",
+  "logoutConfirmTitle": "Logout",
+  "logoutConfirmMessage": "Are you sure you want to logout, {userName}?",
+  "@logoutConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "hello": "Hello, {userName}!",
+  "@hello": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "user": "User",
+  "colorLabel": "Color",
+  "dimensionsLabel": "Dimensions",
+  "favoritesLabel": "Favorites",
+  "addToCartButton": "Add to cart",
+  "addedToCartMessage": "Product added to cart 🛒"
 }

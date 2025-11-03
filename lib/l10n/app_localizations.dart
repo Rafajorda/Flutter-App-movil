@@ -98,7 +98,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'My First App'**
+  /// **'HomeNest'**
   String get appTitle;
 
   /// No description provided for @settings.
@@ -143,6 +143,12 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
   /// No description provided for @email.
   ///
   /// In en, this message translates to:
@@ -152,8 +158,104 @@ abstract class AppLocalizations {
   /// No description provided for @password.
   ///
   /// In en, this message translates to:
-  /// **'password'**
+  /// **'Password'**
   String get password;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up'**
+  String get noAccount;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @completeAllFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all fields'**
+  String get completeAllFields;
+
+  /// No description provided for @incorrectCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect credentials'**
+  String get incorrectCredentials;
+
+  /// No description provided for @registrationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error registering user. Check the data.'**
+  String get registrationError;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout, {userName}?'**
+  String logoutConfirmMessage(String userName);
+
+  /// No description provided for @hello.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {userName}!'**
+  String hello(String userName);
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorLabel;
+
+  /// No description provided for @dimensionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dimensions'**
+  String get dimensionsLabel;
+
+  /// No description provided for @favoritesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favoritesLabel;
+
+  /// No description provided for @addToCartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get addToCartButton;
+
+  /// No description provided for @addedToCartMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Product added to cart 🛒'**
+  String get addedToCartMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

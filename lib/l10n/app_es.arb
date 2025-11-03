@@ -1,13 +1,44 @@
 {
   "@@locale": "es",
-  "appTitle": "Mi primera app",
+  "appTitle": "HomeNest",
   "settings": "Ajustes",
   "darkMode": "Modo Oscuro",
   "darkModeSubtitle": "Activa o desactiva el modo oscuro",
   "language": "Idioma",
   "spanish": "Español",
   "english": "Inglés",
-  "Login": "Login",
-  "email": "email",
-  "password": "contraseña"
+  "login": "Iniciar sesión",
+  "register": "Registro",
+  "email": "Email",
+  "password": "Contraseña",
+  "name": "Nombre",
+  "noAccount": "¿No tienes cuenta? Regístrate",
+  "cancel": "Cancelar",
+  "completeAllFields": "Por favor completa todos los campos",
+  "incorrectCredentials": "Credenciales incorrectas",
+  "registrationError": "Error al registrar usuario. Verifica los datos.",
+  "logout": "Cerrar sesión",
+  "logoutConfirmTitle": "Cerrar sesión",
+  "logoutConfirmMessage": "¿Estás seguro de que quieres cerrar sesión, {userName}?",
+  "@logoutConfirmMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "hello": "¡Hola, {userName}!",
+  "@hello": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "user": "Usuario",
+  "colorLabel": "Color",
+  "dimensionsLabel": "Dimensiones",
+  "favoritesLabel": "Favoritos",
+  "addToCartButton": "Añadir al carrito",
+  "addedToCartMessage": "Producto añadido al carrito 🛒"
 }

@@ -9,7 +9,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Mi primera app';
+  String get appTitle => 'HomeNest';
 
   @override
   String get settings => 'Ajustes';
@@ -30,11 +30,66 @@ class AppLocalizationsEs extends AppLocalizations {
   String get english => 'Inglés';
 
   @override
-  String get login => 'Login';
+  String get login => 'Iniciar sesión';
 
   @override
-  String get email => 'email';
+  String get register => 'Registro';
 
   @override
-  String get password => 'contraseña';
+  String get email => 'Email';
+
+  @override
+  String get password => 'Contraseña';
+
+  @override
+  String get name => 'Nombre';
+
+  @override
+  String get noAccount => '¿No tienes cuenta? Regístrate';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get completeAllFields => 'Por favor completa todos los campos';
+
+  @override
+  String get incorrectCredentials => 'Credenciales incorrectas';
+
+  @override
+  String get registrationError => 'Error al registrar usuario. Verifica los datos.';
+
+  @override
+  String get logout => 'Cerrar sesión';
+
+  @override
+  String get logoutConfirmTitle => 'Cerrar sesión';
+
+  @override
+  String logoutConfirmMessage(String userName) {
+    return '¿Estás seguro de que quieres cerrar sesión, $userName?';
+  }
+
+  @override
+  String hello(String userName) {
+    return '¡Hola, $userName!';
+  }
+
+  @override
+  String get user => 'Usuario';
+
+  @override
+  String get colorLabel => 'Color';
+
+  @override
+  String get dimensionsLabel => 'Dimensiones';
+
+  @override
+  String get favoritesLabel => 'Favoritos';
+
+  @override
+  String get addToCartButton => 'Añadir al carrito';
+
+  @override
+  String get addedToCartMessage => 'Producto añadido al carrito 🛒';
 }
