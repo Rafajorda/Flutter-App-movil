@@ -67,6 +67,9 @@ flutter:
   generate: true
   assets:
     - assets/3d/radio.glb
+    - assets/images/placeholder.png
+    - assets/data/products.json
+    - assets/data/categories.json
 localization:
   arb-dir: lib/l10n
   template-arb-file: app_es.arb
