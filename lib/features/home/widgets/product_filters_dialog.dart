@@ -3,6 +3,22 @@ import 'package:proyecto_1/core/models/product_filters.dart';
 import 'package:proyecto_1/core/models/color.dart';
 import 'package:proyecto_1/core/services/color_service.dart';
 
+/// Diálogo de filtros de productos.
+///
+/// Permite al usuario filtrar productos por:
+/// - Búsqueda por texto
+/// - Rango de precio (mínimo y máximo)
+/// - Color (carga dinámica desde backend)
+/// - Disponibilidad de modelo 3D
+/// - Estado del producto (activo/inactivo)
+/// - Ordenamiento (por nombre, precio, popularidad, fecha)
+/// - Orden ascendente/descendente
+///
+/// Características especiales:
+/// - Carga asíncrona de colores desde el backend
+/// - Opción "Ver más" para expandir lista de colores (muestra 6 inicialmente)
+/// - Validación de rangos de precio
+/// - Preserva filtros aplicados previamente
 class ProductFiltersDialog extends StatefulWidget {
   final ProductFilters initialFilters;
 
@@ -13,14 +29,16 @@ class ProductFiltersDialog extends StatefulWidget {
 }
 
 class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
+  // Controladores de texto para los campos de entrada
   late TextEditingController _searchController;
   late TextEditingController _minPriceController;
   late TextEditingController _maxPriceController;
 
-  String? _selectedColorId; // Ahora guardamos el ID del color
-  List<ColorModel> _availableColors = []; // Colores desde el backend
-  bool _isLoadingColors = true;
-  bool _showAllColors = false; // Para controlar si mostrar todos los colores
+  // Estado de filtros
+  String? _selectedColorId; // UUID del color seleccionado
+  List<ColorModel> _availableColors = []; // Colores cargados del backend
+  bool _isLoadingColors = true; // Indica si está cargando colores
+  bool _showAllColors = false; // Controla si mostrar todos los colores o solo 6
   bool? _hasModel3D;
   String? _selectedStatus;
   String? _selectedSortBy;
@@ -45,6 +63,8 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
   @override
   void initState() {
     super.initState();
+
+    // Inicializar controladores con valores actuales de los filtros
     _searchController = TextEditingController(
       text: widget.initialFilters.search ?? '',
     );
@@ -54,16 +74,24 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
     _maxPriceController = TextEditingController(
       text: widget.initialFilters.maxPrice?.toString() ?? '',
     );
+
+    // Inicializar estado de filtros
     _selectedColorId = widget.initialFilters.colorId;
     _hasModel3D = widget.initialFilters.hasModel3D;
     _selectedStatus = widget.initialFilters.status ?? 'active';
     _selectedSortBy = widget.initialFilters.sortBy;
     _selectedOrder = widget.initialFilters.order;
 
-    // Cargar colores desde el backend
+    // Cargar colores desde el backend de forma asíncrona
     _loadColors();
   }
 
+  /// Carga los colores disponibles desde el backend.
+  ///
+  /// Endpoint: GET /color
+  ///
+  /// Maneja errores mostrando un SnackBar si falla la petición.
+  /// Actualiza [_availableColors] y [_isLoadingColors] al completar.
   Future<void> _loadColors() async {
     try {
       _colorService = ColorService();
@@ -80,7 +108,7 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
           _isLoadingColors = false;
         });
       }
-      // Opcional: mostrar un snackbar de error
+      // Mostrar error al usuario
       if (mounted) {
         ScaffoldMessenger.of(
           context,

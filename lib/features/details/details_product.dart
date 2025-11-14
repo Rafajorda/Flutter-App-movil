@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import '../../core/models/product.dart';
 import '../../core/config/api_config.dart';
 
+/// Página de detalles de un producto.
+///
+/// Muestra:
+/// - Carrusel de imágenes con navegación (flechas izq/der y dots)
+/// - Información del producto (nombre, precio, descripción)
+/// - Colores disponibles como chips
+/// - Dimensiones y contador de favoritos
+/// - Botón de añadir a favoritos (requiere autenticación)
+///
+/// Funcionalidades:
+/// - Navegación entre imágenes con flechas (si hay más de una imagen)
+/// - Indicadores de página (dots)
+/// - Manejo de errores de carga de imágenes
+/// - Conversión de códigos hexadecimales a colores visuales
 class ProductDetailPage extends StatefulWidget {
   final Product product;
 
@@ -12,13 +26,19 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  /// Controlador para el carrusel de imágenes
   late PageController _pageController;
+
+  /// Índice de la imagen actual en el carrusel
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    // Inicializar el controlador del PageView
     _pageController = PageController();
+
+    // Escuchar cambios de página para actualizar el índice actual
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page?.round() ?? 0;
@@ -28,15 +48,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   void dispose() {
+    // Liberar recursos del controlador
     _pageController.dispose();
     super.dispose();
   }
 
-  /// Parsea un código hexadecimal a Color
+  /// Convierte un código hexadecimal (#FF0000) a un objeto Color de Flutter.
+  ///
+  /// Formatos soportados:
+  /// - Con '#': "#FF0000"
+  /// - Sin '#': "FF0000"
+  ///
+  /// Retorna Colors.grey si el formato es inválido.
   Color _parseHexColor(String hexCode) {
     try {
       final hex = hexCode.replaceAll('#', '');
       if (hex.length == 6) {
+        // Añadir opacidad completa (FF) al inicio
         return Color(int.parse('FF$hex', radix: 16));
       }
       return Colors.grey; // Color por defecto si el formato es incorrecto

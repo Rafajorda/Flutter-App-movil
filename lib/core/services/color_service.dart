@@ -14,7 +14,14 @@ class ColorException implements Exception {
   String toString() => message;
 }
 
-/// Servicio de colores - maneja todas las peticiones relacionadas con colores
+/// Servicio de colores - maneja todas las peticiones HTTP relacionadas con colores.
+///
+/// Endpoint base: `GET /color`
+///
+/// Responsabilidades:
+/// - Obtener lista completa de colores disponibles
+/// - Manejo de errores y timeouts
+/// - Parseo de diferentes formatos de respuesta del backend
 class ColorService {
   final http.Client _client;
   final String? _authToken;
@@ -23,7 +30,16 @@ class ColorService {
     : _client = client ?? http.Client(),
       _authToken = authToken;
 
-  /// Obtiene todos los colores
+  /// Obtiene todos los colores disponibles desde el backend.
+  ///
+  /// Endpoint: `GET /color`
+  ///
+  /// Respuesta esperada (puede variar):
+  /// - Array directo: `[{id, name, hexCode}, ...]`
+  /// - Objeto wrapper: `{data: [{id, name, hexCode}, ...]}`
+  /// - Objeto wrapper: `{colors: [{id, name, hexCode}, ...]}`
+  ///
+  /// Lanza [ColorException] si hay error de red o respuesta inválida.
   Future<List<ColorModel>> getAllColors() async {
     try {
       final url = Uri.parse(

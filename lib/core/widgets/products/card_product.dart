@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:proyecto_1/features/details/details_product.dart';
 import '../../models/product.dart';
 
+/// Card de producto para mostrar en grids o listas.
+///
+/// Muestra:
+/// - Imagen del producto (con loading y manejo de errores)
+/// - Precio destacado en verde
+/// - Nombre del producto (bold)
+/// - Descripción (máx 2 líneas con ellipsis)
+///
+/// Características:
+/// - Navegación a ProductDetailPage al hacer tap
+/// - Loading progresivo de imágenes
+/// - Fallback a placeholder si no hay imagen
+/// - Error handling elegante con icono y mensaje
+/// - Elevación y bordes redondeados para mejor estética
 class ProductCard extends StatelessWidget {
   final String title;
   final String description;
   final double price;
   final String? imageUrl;
-
   final Product product;
+
   const ProductCard({
     super.key,
     required this.title,
@@ -22,6 +36,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
+      // Navegar a detalles del producto al hacer tap
       onTap: () {
         Navigator.push(
           context,
@@ -36,7 +51,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🖼 Imagen del producto
+            // 🖼 Imagen del producto con manejo de estados
             ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12),
@@ -47,6 +62,7 @@ class ProductCard extends StatelessWidget {
                       height: 160,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      // Estado de carga con progress indicator
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
                         return Container(
@@ -61,6 +77,7 @@ class ProductCard extends StatelessWidget {
                           ),
                         );
                       },
+                      // Estado de error con icono y mensaje
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           height: 160,
@@ -87,6 +104,7 @@ class ProductCard extends StatelessWidget {
                         );
                       },
                     )
+                  // Fallback a imagen placeholder si no hay URL
                   : Image.asset(
                       'assets/images/placeholder.png',
                       height: 160,

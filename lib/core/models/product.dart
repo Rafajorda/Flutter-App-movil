@@ -1,15 +1,41 @@
 import 'color.dart';
 
+/// Modelo de datos para un Producto.
+///
+/// Representa un producto en el catálogo con toda su información:
+/// - Datos básicos: nombre, descripción, precio
+/// - Multimedia: imágenes, dimensiones
+/// - Clasificación: categorías, colores, estado
+/// - Engagement: contador de favoritos
 class Product {
+  /// ID único del producto (UUID desde backend)
   final String id;
+
+  /// Nombre del producto
   final String name;
+
+  /// Descripción detallada del producto
   final String description;
+
+  /// Precio del producto en formato decimal
   final double price;
-  final List<ColorModel> colors; // Ahora es una lista de objetos Color
+
+  /// Lista de colores disponibles para este producto (relación Many-to-Many)
+  final List<ColorModel> colors;
+
+  /// Dimensiones físicas del producto (formato texto, ej: "10x20x5 cm")
   final String dimensions;
+
+  /// Cantidad de usuarios que han marcado este producto como favorito
   final int favoritesCount;
+
+  /// Estado del producto: 'active', 'inactive', 'discontinued', etc.
   final String status;
+
+  /// IDs de las categorías a las que pertenece el producto
   final List<int> categories;
+
+  /// URLs de las imágenes del producto (múltiples imágenes soportadas)
   final List<String> images;
 
   const Product({
@@ -26,7 +52,10 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    // Parsear price - puede venir como String o num
+    /// Helper: Parsea el precio que puede venir en diferentes formatos desde el backend
+    /// - Como número: 123.45
+    /// - Como string: "123.45"
+    /// - Como null: retorna 0.0
     double parsePrice(dynamic priceValue) {
       if (priceValue == null) return 0.0;
       if (priceValue is num) return priceValue.toDouble();
@@ -36,7 +65,11 @@ class Product {
       return 0.0;
     }
 
-    // Parsear categories - puede venir como array de IDs o array de objetos
+    /// Helper: Parsea las categorías que pueden venir en diferentes formatos:
+    /// - Array de números: [1, 2, 3]
+    /// - Array de strings: ["1", "2", "3"]
+    /// - Array de objetos: [{"id": "uuid", "name": "..."}]
+    /// En el caso de objetos, se usa el hashCode del UUID como int temporal
     List<int> parseCategories(dynamic categoriesValue) {
       if (categoriesValue == null) return [];
       if (categoriesValue is! List) return [];
@@ -62,7 +95,10 @@ class Product {
       return result;
     }
 
-    // Parsear images - puede venir como array de strings o array de objetos
+    /// Helper: Parsea las imágenes que pueden venir en diferentes formatos:
+    /// - Array de URLs: ["https://...", "https://..."]
+    /// - Array de objetos: [{"src": "https://..."}, {"url": "https://..."}]
+    /// Soporta múltiples nombres de campo: src, url, path, imageUrl
     List<String> parseImages(dynamic imagesValue) {
       if (imagesValue == null) return [];
       if (imagesValue is! List) return [];
@@ -89,7 +125,9 @@ class Product {
       return result;
     }
 
-    // Parsear colors - array de objetos Color
+    /// Helper: Parsea los colores desde el array de objetos Color del backend.
+    /// Cada color tiene: id (UUID), name (String), hexCode (String opcional)
+    /// Si un color falla al parsearse, se omite y continúa con el siguiente.
     List<ColorModel> parseColors(dynamic colorsValue) {
       if (colorsValue == null) return [];
       if (colorsValue is! List) return [];

@@ -16,6 +16,21 @@ import 'widgets/product_grid.dart';
 import 'widgets/user_greeting.dart';
 import 'widgets/product_filters_dialog.dart';
 
+/// Página principal de la aplicación (Home).
+///
+/// Funcionalidades:
+/// - Muestra grid de productos con filtros aplicados
+/// - Permite filtrar por categoría mediante chips
+/// - Botón flotante para abrir diálogo de filtros avanzados
+/// - Navegación a perfil y configuración
+/// - Carga paralela de productos, categorías y colores
+/// - Manejo de estados: loading, error, data
+///
+/// Características técnicas:
+/// - Usa Riverpod para gestión de estado de autenticación
+/// - Integración con servicios REST para backend
+/// - Filtros dinámicos con preservación de estado
+/// - UUID-based filtering para categorías (no hashCode)
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
@@ -24,15 +39,23 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  int? selectedCategoryId;
-  String? selectedCategoryUuid; // ✅ Agregar UUID para enviar al backend
+  // Filtros de categoría
+  int? selectedCategoryId; // ID local (hashCode) para UI
+  String? selectedCategoryUuid; // UUID real para enviar al backend
+
+  // Filtros activos
   ProductFilters _currentFilters = ProductFilters.empty;
 
+  // Datos cargados
   List<Product> products = [];
   List<Category> categories = [];
-  List<ColorModel> colors = []; // Lista de colores para mostrar nombres
+  List<ColorModel> colors = []; // Para mostrar nombres de colores en filtros
+
+  // Estado de la UI
   bool isLoading = true;
   String? errorMessage;
+
+  // Servicios HTTP
   ProductService? _productService;
   CategoryService? _categoryService;
   ColorService? _colorService;
@@ -51,6 +74,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     super.dispose();
   }
 
+  /// Carga datos desde el backend: productos, categorías y colores.
+  ///
+  /// Proceso:
+  /// 1. Obtiene token de autenticación del authProvider
+  /// 2. Inicializa servicios HTTP con el token
+  /// 3. Combina filtros actuales + categoría seleccionada
+  /// 4. Hace peticiones paralelas con Future.wait (optimización)
+  /// 5. Actualiza estado con los datos recibidos
+  ///
+  /// Parámetros:
+  /// - [filters]: Filtros opcionales a aplicar (si null, usa los actuales)
+  ///
+  /// Nota: Usa UUID de categoría para el backend, no el hashCode local.
   Future<void> _loadData([ProductFilters? filters]) async {
     setState(() {
       isLoading = true;
@@ -67,9 +103,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       // Crear filtros con la categoría seleccionada actual
       final baseFilters = filters ?? _currentFilters;
 
-      // Usar el UUID de la categoría (no el hashCode) para el backend
+      // ✅ IMPORTANTE: Usar el UUID de la categoría (no el hashCode) para el backend
       final filtersWithCategory = baseFilters.copyWith(
-        categoryId: selectedCategoryUuid, // ✅ Usar UUID en lugar de ID
+        categoryId: selectedCategoryUuid,
       );
 
       // Si no hay categoría seleccionada, limpiar el filtro de categoría
@@ -89,7 +125,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             )
           : filtersWithCategory;
 
-      // Cargar productos y categorías desde el backend en paralelo
+      // Cargar productos, categorías y colores en paralelo para mejor performance
       final results = await Future.wait([
         _productService!.getAllProducts(finalFilters),
         _categoryService!.getAllCategories(),
@@ -117,6 +153,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   List<Product> get filteredProducts => products;
 
+  /// Abre el diálogo de filtros avanzados y aplica los filtros seleccionados.
+  ///
+  /// Si el usuario confirma los filtros, recarga los productos con los nuevos criterios.
   Future<void> _openFiltersDialog() async {
     final result = await showDialog<ProductFilters>(
       context: context,
