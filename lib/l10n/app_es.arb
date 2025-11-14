@@ -1,12 +1,15 @@
 {
   "@@locale": "es",
+  
   "appTitle": "HomeNest",
+  
   "settings": "Ajustes",
   "darkMode": "Modo Oscuro",
   "darkModeSubtitle": "Activa o desactiva el modo oscuro",
   "language": "Idioma",
   "spanish": "Español",
   "english": "Inglés",
+  
   "login": "Iniciar sesión",
   "register": "Registro",
   "email": "Email",
@@ -17,6 +20,19 @@
   "completeAllFields": "Por favor completa todos los campos",
   "incorrectCredentials": "Credenciales incorrectas",
   "registrationError": "Error al registrar usuario. Verifica los datos.",
+  
+  "invalidCredentials": "Credenciales inválidas",
+  "emailAlreadyRegistered": "El email ya está registrado",
+  "usernameAlreadyInUse": "El nombre de usuario ya está en uso",
+  "sessionExpired": "Sesión expirada. Por favor, inicia sesión nuevamente",
+  "connectionError": "Error de conexión. Verifica tu conexión a internet",
+  "serverError": "Error del servidor. Inténtalo más tarde",
+  "invalidEmail": "Formato de email inválido",
+  "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+  "loginSuccessful": "Inicio de sesión exitoso",
+  "registerSuccessful": "Registro exitoso",
+  "logoutSuccessful": "Sesión cerrada exitosamente",
+  
   "logout": "Cerrar sesión",
   "logoutConfirmTitle": "Cerrar sesión",
   "logoutConfirmMessage": "¿Estás seguro de que quieres cerrar sesión, {userName}?",
@@ -27,6 +43,7 @@
       }
     }
   },
+  
   "hello": "¡Hola, {userName}!",
   "@hello": {
     "placeholders": {
@@ -35,10 +52,150 @@
       }
     }
   },
+  
   "user": "Usuario",
+  
+  "profile": "Perfil",
+  "editProfile": "Editar Perfil",
+  "myOrders": "Mis Pedidos",
+  "favorites": "Favoritos",
+  "addresses": "Direcciones",
+  "comingSoon": "Próximamente",
+  "notLoggedIn": "No has iniciado sesión",
+  "loginToSeeProfile": "Inicia sesión para ver tu perfil y pedidos",
+  
   "colorLabel": "Color",
   "dimensionsLabel": "Dimensiones",
   "favoritesLabel": "Favoritos",
   "addToCartButton": "Añadir al carrito",
-  "addedToCartMessage": "Producto añadido al carrito 🛒"
+  "addedToCartMessage": "Producto añadido al carrito 🛒",
+  
+  "errorLoadingProducts": "Error al cargar productos",
+  "retry": "Reintentar",
+  "loading": "Cargando...",
+  "noProductsFound": "No se encontraron productos",
+  "allCategories": "Todos",
+  
+  "productDetails": "Detalles del Producto",
+  "specifications": "Especificaciones",
+  "addedToFavorites": "Añadido a favoritos ❤️",
+  "removedFromFavorites": "Eliminado de favoritos",
+  "color": "Color",
+  "dimensions": "Dimensiones",
+  
+  "profileTooltip": "Perfil",
+  "settingsTooltip": "Ajustes",
+  "cartTooltip": "Carrito",
+  "searchTooltip": "Buscar",
+  "homeTooltip": "Inicio",
+  "catalogTooltip": "Catálogo",
+  
+  "accountSettings": "Configuración de cuenta",
+  "notifications": "Notificaciones",
+  "privacy": "Privacidad",
+  "help": "Ayuda y soporte",
+  "about": "Acerca de",
+  "version": "Versión",
+  "deleteAccount": "Eliminar cuenta",
+  "deleteAccountConfirm": "¿Estás seguro de que quieres eliminar tu cuenta?",
+  "yes": "Sí",
+  "no": "No",
+  
+  "cart": "Carrito",
+  "emptyCart": "Tu carrito está vacío",
+  "cartTotal": "Total",
+  "checkout": "Finalizar compra",
+  "removeFromCart": "Eliminar del carrito",
+  "clearCart": "Vaciar carrito",
+  "clearCartConfirm": "¿Estás seguro de que quieres vaciar tu carrito?",
+  "quantity": "Cantidad",
+  "subtotal": "Subtotal",
+  "total": "Total",
+  "proceedToCheckout": "Proceder al pago",
+  "itemRemoved": "Artículo eliminado del carrito",
+  "cartCleared": "Carrito vaciado",
+  
+  "orders": "Pedidos",
+  "orderHistory": "Historial de pedidos",
+  "orderNumber": "Pedido #",
+  "orderDate": "Fecha",
+  "orderStatus": "Estado",
+  "orderTotal": "Total",
+  "orderDetails": "Detalles del pedido",
+  "trackOrder": "Rastrear pedido",
+  "cancelOrder": "Cancelar pedido",
+  "reorder": "Volver a pedir",
+  "noOrders": "No tienes pedidos aún",
+  "orderPlaced": "Pedido realizado con éxito",
+  "orderCancelled": "Pedido cancelado",
+  
+  "pending": "Pendiente",
+  "processing": "Procesando",
+  "shipped": "Enviado",
+  "delivered": "Entregado",
+  "cancelled": "Cancelado",
+  
+  "search": "Buscar",
+  "searchProducts": "Buscar productos...",
+  "searchResults": "Resultados de búsqueda",
+  "noResults": "No se encontraron resultados",
+  "filters": "Filtros",
+  "sortBy": "Ordenar por",
+  "priceRange": "Rango de precio",
+  "category": "Categoría",
+  "applyFilters": "Aplicar Filtros",
+  "clearFilters": "Limpiar Filtros",
+  "resultsFound": "{count} resultados encontrados",
+  "@resultsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "sortByNewest": "Más recientes",
+  "sortByPriceAsc": "Precio: Menor a Mayor",
+  "sortByPriceDesc": "Precio: Mayor a Menor",
+  "sortByPopularity": "Popularidad",
+  
+  "required": "Este campo es obligatorio",
+  "invalidEmailFormat": "Formato de email inválido",
+  "passwordMismatch": "Las contraseñas no coinciden",
+  "minLength": "Se requieren mínimo {count} caracteres",
+  "@minLength": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "maxLength": "Máximo {count} caracteres permitidos",
+  "@maxLength": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidPhoneNumber": "Número de teléfono inválido",
+  "invalidPostalCode": "Código postal inválido",
+  
+  "close": "Cerrar",
+  "save": "Guardar",
+  "edit": "Editar",
+  "delete": "Eliminar",
+  "confirm": "Confirmar",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "previous": "Anterior",
+  "done": "Listo",
+  "apply": "Aplicar",
+  "clear": "Limpiar",
+  "refresh": "Actualizar",
+  "share": "Compartir",
+  "more": "Más",
+  "less": "Menos",
+  "viewAll": "Ver Todo",
+  "viewLess": "Ver Menos"
 }

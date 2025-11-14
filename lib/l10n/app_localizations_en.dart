@@ -60,6 +60,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registrationError => 'Error registering user. Check the data.';
 
   @override
+  String get invalidCredentials => 'Invalid credentials';
+
+  @override
+  String get emailAlreadyRegistered => 'Email is already registered';
+
+  @override
+  String get usernameAlreadyInUse => 'Username is already in use';
+
+  @override
+  String get sessionExpired => 'Session expired. Please login again';
+
+  @override
+  String get connectionError => 'Connection error. Check your internet connection';
+
+  @override
+  String get serverError => 'Server error. Please try again later';
+
+  @override
+  String get invalidEmail => 'Invalid email format';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get loginSuccessful => 'Login successful';
+
+  @override
+  String get registerSuccessful => 'Registration successful';
+
+  @override
+  String get logoutSuccessful => 'Logout successful';
+
+  @override
   String get logout => 'Logout';
 
   @override
@@ -79,6 +112,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get user => 'User';
 
   @override
+  String get profile => 'Profile';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get myOrders => 'My Orders';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get addresses => 'Addresses';
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get notLoggedIn => 'Not logged in';
+
+  @override
+  String get loginToSeeProfile => 'Login to see your profile and orders';
+
+  @override
   String get colorLabel => 'Color';
 
   @override
@@ -92,4 +149,301 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addedToCartMessage => 'Product added to cart 🛒';
+
+  @override
+  String get errorLoadingProducts => 'Error loading products';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get noProductsFound => 'No products found';
+
+  @override
+  String get allCategories => 'All';
+
+  @override
+  String get productDetails => 'Product Details';
+
+  @override
+  String get specifications => 'Specifications';
+
+  @override
+  String get addedToFavorites => 'Added to favorites ❤️';
+
+  @override
+  String get removedFromFavorites => 'Removed from favorites';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get dimensions => 'Dimensions';
+
+  @override
+  String get profileTooltip => 'Profile';
+
+  @override
+  String get settingsTooltip => 'Settings';
+
+  @override
+  String get cartTooltip => 'Cart';
+
+  @override
+  String get searchTooltip => 'Search';
+
+  @override
+  String get homeTooltip => 'Home';
+
+  @override
+  String get catalogTooltip => 'Catalog';
+
+  @override
+  String get accountSettings => 'Account Settings';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get help => 'Help & Support';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get deleteAccountConfirm => 'Are you sure you want to delete your account?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get emptyCart => 'Your cart is empty';
+
+  @override
+  String get cartTotal => 'Total';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get removeFromCart => 'Remove from cart';
+
+  @override
+  String get clearCart => 'Clear cart';
+
+  @override
+  String get clearCartConfirm => 'Are you sure you want to clear your cart?';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get subtotal => 'Subtotal';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get proceedToCheckout => 'Proceed to checkout';
+
+  @override
+  String get itemRemoved => 'Item removed from cart';
+
+  @override
+  String get cartCleared => 'Cart cleared';
+
+  @override
+  String get orders => 'Orders';
+
+  @override
+  String get orderHistory => 'Order History';
+
+  @override
+  String get orderNumber => 'Order #';
+
+  @override
+  String get orderDate => 'Date';
+
+  @override
+  String get orderStatus => 'Status';
+
+  @override
+  String get orderTotal => 'Total';
+
+  @override
+  String get orderDetails => 'Order Details';
+
+  @override
+  String get trackOrder => 'Track Order';
+
+  @override
+  String get cancelOrder => 'Cancel Order';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get noOrders => 'You have no orders yet';
+
+  @override
+  String get orderPlaced => 'Order placed successfully';
+
+  @override
+  String get orderCancelled => 'Order cancelled';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get shipped => 'Shipped';
+
+  @override
+  String get delivered => 'Delivered';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get searchProducts => 'Search products...';
+
+  @override
+  String get searchResults => 'Search Results';
+
+  @override
+  String get noResults => 'No results found';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get priceRange => 'Price Range';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String resultsFound(int count) {
+    return '$count results found';
+  }
+
+  @override
+  String get sortByNewest => 'Newest';
+
+  @override
+  String get sortByPriceAsc => 'Price: Low to High';
+
+  @override
+  String get sortByPriceDesc => 'Price: High to Low';
+
+  @override
+  String get sortByPopularity => 'Popularity';
+
+  @override
+  String get required => 'This field is required';
+
+  @override
+  String get invalidEmailFormat => 'Invalid email format';
+
+  @override
+  String get passwordMismatch => 'Passwords do not match';
+
+  @override
+  String minLength(int count) {
+    return 'Minimum $count characters required';
+  }
+
+  @override
+  String maxLength(int count) {
+    return 'Maximum $count characters allowed';
+  }
+
+  @override
+  String get invalidPhoneNumber => 'Invalid phone number';
+
+  @override
+  String get invalidPostalCode => 'Invalid postal code';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get less => 'Less';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get viewLess => 'View Less';
 }

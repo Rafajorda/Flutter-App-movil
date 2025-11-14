@@ -1,12 +1,15 @@
 {
   "@@locale": "en",
+  
   "appTitle": "HomeNest",
+  
   "settings": "Settings",
   "darkMode": "Dark Mode",
   "darkModeSubtitle": "Enable or disable dark mode",
   "language": "Language",
   "spanish": "Spanish",
   "english": "English",
+  
   "login": "Login",
   "register": "Register",
   "email": "Email",
@@ -17,6 +20,19 @@
   "completeAllFields": "Please complete all fields",
   "incorrectCredentials": "Incorrect credentials",
   "registrationError": "Error registering user. Check the data.",
+  
+  "invalidCredentials": "Invalid credentials",
+  "emailAlreadyRegistered": "Email is already registered",
+  "usernameAlreadyInUse": "Username is already in use",
+  "sessionExpired": "Session expired. Please login again",
+  "connectionError": "Connection error. Check your internet connection",
+  "serverError": "Server error. Please try again later",
+  "invalidEmail": "Invalid email format",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "loginSuccessful": "Login successful",
+  "registerSuccessful": "Registration successful",
+  "logoutSuccessful": "Logout successful",
+  
   "logout": "Logout",
   "logoutConfirmTitle": "Logout",
   "logoutConfirmMessage": "Are you sure you want to logout, {userName}?",
@@ -27,6 +43,7 @@
       }
     }
   },
+  
   "hello": "Hello, {userName}!",
   "@hello": {
     "placeholders": {
@@ -35,10 +52,150 @@
       }
     }
   },
+  
   "user": "User",
+  
+  "profile": "Profile",
+  "editProfile": "Edit Profile",
+  "myOrders": "My Orders",
+  "favorites": "Favorites",
+  "addresses": "Addresses",
+  "comingSoon": "Coming soon",
+  "notLoggedIn": "Not logged in",
+  "loginToSeeProfile": "Login to see your profile and orders",
+  
   "colorLabel": "Color",
   "dimensionsLabel": "Dimensions",
   "favoritesLabel": "Favorites",
   "addToCartButton": "Add to cart",
-  "addedToCartMessage": "Product added to cart 🛒"
+  "addedToCartMessage": "Product added to cart 🛒",
+  
+  "errorLoadingProducts": "Error loading products",
+  "retry": "Retry",
+  "loading": "Loading...",
+  "noProductsFound": "No products found",
+  "allCategories": "All",
+  
+  "productDetails": "Product Details",
+  "specifications": "Specifications",
+  "addedToFavorites": "Added to favorites ❤️",
+  "removedFromFavorites": "Removed from favorites",
+  "color": "Color",
+  "dimensions": "Dimensions",
+  
+  "profileTooltip": "Profile",
+  "settingsTooltip": "Settings",
+  "cartTooltip": "Cart",
+  "searchTooltip": "Search",
+  "homeTooltip": "Home",
+  "catalogTooltip": "Catalog",
+  
+  "accountSettings": "Account Settings",
+  "notifications": "Notifications",
+  "privacy": "Privacy",
+  "help": "Help & Support",
+  "about": "About",
+  "version": "Version",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirm": "Are you sure you want to delete your account?",
+  "yes": "Yes",
+  "no": "No",
+  
+  "cart": "Cart",
+  "emptyCart": "Your cart is empty",
+  "cartTotal": "Total",
+  "checkout": "Checkout",
+  "removeFromCart": "Remove from cart",
+  "clearCart": "Clear cart",
+  "clearCartConfirm": "Are you sure you want to clear your cart?",
+  "quantity": "Quantity",
+  "subtotal": "Subtotal",
+  "total": "Total",
+  "proceedToCheckout": "Proceed to checkout",
+  "itemRemoved": "Item removed from cart",
+  "cartCleared": "Cart cleared",
+  
+  "orders": "Orders",
+  "orderHistory": "Order History",
+  "orderNumber": "Order #",
+  "orderDate": "Date",
+  "orderStatus": "Status",
+  "orderTotal": "Total",
+  "orderDetails": "Order Details",
+  "trackOrder": "Track Order",
+  "cancelOrder": "Cancel Order",
+  "reorder": "Reorder",
+  "noOrders": "You have no orders yet",
+  "orderPlaced": "Order placed successfully",
+  "orderCancelled": "Order cancelled",
+  
+  "pending": "Pending",
+  "processing": "Processing",
+  "shipped": "Shipped",
+  "delivered": "Delivered",
+  "cancelled": "Cancelled",
+  
+  "search": "Search",
+  "searchProducts": "Search products...",
+  "searchResults": "Search Results",
+  "noResults": "No results found",
+  "filters": "Filters",
+  "sortBy": "Sort by",
+  "priceRange": "Price Range",
+  "category": "Category",
+  "applyFilters": "Apply Filters",
+  "clearFilters": "Clear Filters",
+  "resultsFound": "{count} results found",
+  "@resultsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "sortByNewest": "Newest",
+  "sortByPriceAsc": "Price: Low to High",
+  "sortByPriceDesc": "Price: High to Low",
+  "sortByPopularity": "Popularity",
+  
+  "required": "This field is required",
+  "invalidEmailFormat": "Invalid email format",
+  "passwordMismatch": "Passwords do not match",
+  "minLength": "Minimum {count} characters required",
+  "@minLength": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "maxLength": "Maximum {count} characters allowed",
+  "@maxLength": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidPhoneNumber": "Invalid phone number",
+  "invalidPostalCode": "Invalid postal code",
+  
+  "close": "Close",
+  "save": "Save",
+  "edit": "Edit",
+  "delete": "Delete",
+  "confirm": "Confirm",
+  "back": "Back",
+  "next": "Next",
+  "previous": "Previous",
+  "done": "Done",
+  "apply": "Apply",
+  "clear": "Clear",
+  "refresh": "Refresh",
+  "share": "Share",
+  "more": "More",
+  "less": "Less",
+  "viewAll": "View All",
+  "viewLess": "View Less"
 }
