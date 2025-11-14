@@ -23,16 +23,83 @@ class Product {
     required this.images,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json['id'].toString(),
-        name: json['name'] ?? '',
-        description: json['description'] ?? '',
-        price: (json['price'] as num).toDouble(),
-        color: json['color'] ?? '',
-        dimensions: json['dimensions'] ?? '',
-        favoritesCount: json['favoritesCount'] ?? 0,
-        status: json['status'] ?? 'active',
-        categories: List<int>.from(json['categories'] ?? []),
-        images: List<String>.from(json['images'] ?? []),
-      );
+  factory Product.fromJson(Map<String, dynamic> json) {
+    // Parsear price - puede venir como String o num
+    double parsePrice(dynamic priceValue) {
+      if (priceValue == null) return 0.0;
+      if (priceValue is num) return priceValue.toDouble();
+      if (priceValue is String) {
+        return double.tryParse(priceValue) ?? 0.0;
+      }
+      return 0.0;
+    }
+
+    // Parsear categories - puede venir como array de IDs o array de objetos
+    List<int> parseCategories(dynamic categoriesValue) {
+      if (categoriesValue == null) return [];
+      if (categoriesValue is! List) return [];
+
+      List<int> result = [];
+      for (var item in categoriesValue) {
+        if (item is int) {
+          // Caso 1: Array de números [1, 2, 3]
+          result.add(item);
+        } else if (item is String) {
+          // Caso 2: Array de strings ["1", "2", "3"]
+          final parsed = int.tryParse(item);
+          if (parsed != null) result.add(parsed);
+        } else if (item is Map<String, dynamic>) {
+          // Caso 3: Array de objetos [{"id": "uuid", "name": "..."}]
+          // Por ahora, usar hashCode del id como int
+          final id = item['id']?.toString() ?? '';
+          if (id.isNotEmpty) {
+            result.add(id.hashCode);
+          }
+        }
+      }
+      return result;
+    }
+
+    // Parsear images - puede venir como array de strings o array de objetos
+    List<String> parseImages(dynamic imagesValue) {
+      if (imagesValue == null) return [];
+      if (imagesValue is! List) return [];
+
+      List<String> result = [];
+      for (var item in imagesValue) {
+        if (item is String) {
+          // Caso 1: URL directa como string
+          result.add(item);
+        } else if (item is Map<String, dynamic>) {
+          // Caso 2: Objeto con campo de URL
+          // Intentar diferentes nombres de campo comunes
+          final url =
+              item['src'] ?? // Backend actual: { "src": "..." }
+              item['url'] ?? // Alternativa: { "url": "..." }
+              item['path'] ?? // Alternativa: { "path": "..." }
+              item['imageUrl'] ?? // Alternativa: { "imageUrl": "..." }
+              '';
+          if (url is String && url.isNotEmpty) {
+            result.add(url);
+          }
+        }
+      }
+      return result;
+    }
+
+    return Product(
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      price: parsePrice(json['price']),
+      color: json['color']?.toString() ?? '',
+      dimensions: json['dimensions']?.toString() ?? '',
+      favoritesCount: json['favoritesCount'] is int
+          ? json['favoritesCount']
+          : (int.tryParse(json['favoritesCount']?.toString() ?? '0') ?? 0),
+      status: json['status']?.toString() ?? 'active',
+      categories: parseCategories(json['categories']),
+      images: parseImages(json['images']),
+    );
+  }
 }

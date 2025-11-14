@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/models/product.dart';
+import '../../core/config/api_config.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -26,16 +27,73 @@ class ProductDetailPage extends StatelessWidget {
             // 🔹 Carrusel de imágenes
             SizedBox(
               height: 300,
-              child: PageView.builder(
-                itemCount: product.images.length,
-                itemBuilder: (context, index) {
-                  return Image.network(
-                    product.images[index],
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  );
-                },
-              ),
+              child: product.images.isEmpty
+                  ? Image.asset(
+                      'assets/images/placeholder.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    )
+                  : PageView.builder(
+                      itemCount: product.images.length,
+                      itemBuilder: (context, index) {
+                        // Construir URL correcta
+                        String imageUrl;
+                        final rawUrl = product.images[index];
+                        if (rawUrl.startsWith('/')) {
+                          imageUrl = '${ApiConfig.baseUrl}$rawUrl';
+                        } else if (rawUrl.startsWith('http://') ||
+                            rawUrl.startsWith('https://')) {
+                          imageUrl = rawUrl;
+                        } else {
+                          imageUrl = rawUrl;
+                        }
+
+                        return Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              color: Colors.grey[200],
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            print('Error cargando imagen en detalles: $error');
+                            return Container(
+                              color: Colors.grey[200],
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.broken_image,
+                                    size: 80,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    'Error al cargar imagen',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
 
             const SizedBox(height: 20),

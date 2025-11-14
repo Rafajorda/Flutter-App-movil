@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_1/core/models/product.dart';
 import 'package:proyecto_1/core/widgets/products/card_product.dart';
+import 'package:proyecto_1/core/config/api_config.dart';
 
 class ProductGrid extends StatelessWidget {
   final List<Product> products;
@@ -29,11 +30,31 @@ class ProductGrid extends StatelessWidget {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
+
+              // Usar la primera imagen del producto, o placeholder si no hay
+              String imageUrl;
+              if (product.images.isEmpty) {
+                imageUrl = 'assets/images/placeholder.png';
+              } else {
+                final rawUrl = product.images.first;
+                // Si la URL es relativa (comienza con /), agregar el baseUrl
+                if (rawUrl.startsWith('/')) {
+                  imageUrl = '${ApiConfig.baseUrl}$rawUrl';
+                } else if (rawUrl.startsWith('http://') ||
+                    rawUrl.startsWith('https://')) {
+                  // Ya es una URL completa
+                  imageUrl = rawUrl;
+                } else {
+                  // Es un asset local
+                  imageUrl = rawUrl;
+                }
+              }
+
               return ProductCard(
                 title: product.name,
                 description: product.description,
                 price: product.price,
-                imageUrl: 'assets/images/placeholder.png',
+                imageUrl: imageUrl,
                 product: product,
               );
             },

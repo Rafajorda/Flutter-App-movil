@@ -42,23 +42,51 @@ class ProductCard extends StatelessWidget {
                 top: Radius.circular(12),
               ),
               child: imageUrl != null && imageUrl!.isNotEmpty
-                  ? FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/placeholder.png',
-                      image: imageUrl!,
+                  ? Image.network(
+                      imageUrl!,
                       height: 160,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) =>
-                          Container(
-                            height: 160,
-                            color: Colors.grey[200],
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.broken_image,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(
+                          height: 160,
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                : null,
                           ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error cargando imagen: $error');
+                        return Container(
+                          height: 160,
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.broken_image,
+                                size: 60,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Error al cargar',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     )
                   : Image.asset(
                       'assets/images/placeholder.png',

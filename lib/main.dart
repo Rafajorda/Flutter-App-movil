@@ -5,6 +5,7 @@ import 'package:proyecto_1/features/home/home_page.dart';
 import 'package:proyecto_1/l10n/app_localizations.dart';
 import 'package:proyecto_1/providers/theme_and_locale_provider.dart';
 import 'package:proyecto_1/core/theme/app_theme.dart';
+import 'package:proyecto_1/core/utils/snackbar.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -18,6 +19,7 @@ class MyApp extends ConsumerWidget {
     final asyncThemeState = ref.watch(themeAndLocaleProvider);
 
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       title: 'HomeNest',
       theme: AppTheme.lightTheme,
