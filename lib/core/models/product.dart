@@ -1,9 +1,11 @@
+import 'color.dart';
+
 class Product {
   final String id;
   final String name;
   final String description;
   final double price;
-  final String color;
+  final List<ColorModel> colors; // Ahora es una lista de objetos Color
   final String dimensions;
   final int favoritesCount;
   final String status;
@@ -15,7 +17,7 @@ class Product {
     required this.name,
     required this.description,
     required this.price,
-    required this.color,
+    required this.colors,
     required this.dimensions,
     required this.favoritesCount,
     required this.status,
@@ -87,12 +89,31 @@ class Product {
       return result;
     }
 
+    // Parsear colors - array de objetos Color
+    List<ColorModel> parseColors(dynamic colorsValue) {
+      if (colorsValue == null) return [];
+      if (colorsValue is! List) return [];
+
+      List<ColorModel> result = [];
+      for (var item in colorsValue) {
+        if (item is Map<String, dynamic>) {
+          try {
+            result.add(ColorModel.fromJson(item));
+          } catch (e) {
+            // Si falla el parsing, continuar con el siguiente
+            continue;
+          }
+        }
+      }
+      return result;
+    }
+
     return Product(
       id: json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       price: parsePrice(json['price']),
-      color: json['color']?.toString() ?? '',
+      colors: parseColors(json['colors']),
       dimensions: json['dimensions']?.toString() ?? '',
       favoritesCount: json['favoritesCount'] is int
           ? json['favoritesCount']

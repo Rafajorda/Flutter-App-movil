@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyecto_1/core/extensions/context_localization.dart';
 import 'package:proyecto_1/core/models/product.dart';
 import 'package:proyecto_1/core/models/category.dart';
+import 'package:proyecto_1/core/models/color.dart';
 import 'package:proyecto_1/core/models/product_filters.dart';
 import 'package:proyecto_1/core/widgets/general_chip.dart';
 import 'package:proyecto_1/core/services/product_service.dart';
 import 'package:proyecto_1/core/services/category_service.dart';
+import 'package:proyecto_1/core/services/color_service.dart';
 import 'package:proyecto_1/providers/auth_provider.dart';
 import 'package:proyecto_1/features/settings/settings_page.dart';
 import 'package:proyecto_1/features/profile/profile_page.dart';
@@ -28,10 +30,12 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   List<Product> products = [];
   List<Category> categories = [];
+  List<ColorModel> colors = []; // Lista de colores para mostrar nombres
   bool isLoading = true;
   String? errorMessage;
   ProductService? _productService;
   CategoryService? _categoryService;
+  ColorService? _colorService;
 
   @override
   void initState() {
@@ -43,6 +47,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   void dispose() {
     _productService?.dispose();
     _categoryService?.dispose();
+    _colorService?.dispose();
     super.dispose();
   }
 
@@ -57,6 +62,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       final authState = ref.read(authProvider);
       _productService = ProductService(authToken: authState.accessToken);
       _categoryService = CategoryService(authToken: authState.accessToken);
+      _colorService = ColorService(authToken: authState.accessToken);
 
       // Crear filtros con la categoría seleccionada actual
       final baseFilters = filters ?? _currentFilters;
@@ -70,7 +76,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       final finalFilters = selectedCategoryUuid == null
           ? ProductFilters(
               search: filtersWithCategory.search,
-              color: filtersWithCategory.color,
+              colorId: filtersWithCategory.colorId,
               minPrice: filtersWithCategory.minPrice,
               maxPrice: filtersWithCategory.maxPrice,
               hasModel3D: filtersWithCategory.hasModel3D,
@@ -87,14 +93,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       final results = await Future.wait([
         _productService!.getAllProducts(finalFilters),
         _categoryService!.getAllCategories(),
+        _colorService!.getAllColors(),
       ]);
 
       final loadedProducts = results[0] as List<Product>;
       final loadedCategories = results[1] as List<Category>;
+      final loadedColors = results[2] as List<ColorModel>;
 
       setState(() {
         products = loadedProducts;
         categories = loadedCategories;
+        colors = loadedColors;
         _currentFilters = finalFilters;
         isLoading = false;
       });
@@ -265,12 +274,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                             ),
                             const SizedBox(width: 8),
                           ],
-                          if (_currentFilters.color != null) ...[
+                          if (_currentFilters.colorId != null) ...[
                             Chip(
-                              label: Text('🎨 ${_currentFilters.color}'),
+                              label: Text(
+                                '🎨 ${colors.firstWhere(
+                                  (c) => c.id == _currentFilters.colorId,
+                                  orElse: () => ColorModel(id: '', name: 'Color seleccionado'),
+                                ).name}',
+                              ),
                               onDeleted: () {
                                 _loadData(
-                                  _currentFilters.copyWith(clearColor: true),
+                                  _currentFilters.copyWith(clearColorId: true),
                                 );
                               },
                               deleteIcon: const Icon(Icons.close, size: 18),

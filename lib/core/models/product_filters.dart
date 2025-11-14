@@ -2,7 +2,7 @@
 class ProductFilters {
   final String? search;
   final String? categoryId;
-  final String? color;
+  final String? colorId; // UUID del color en lugar de nombre
   final double? minPrice;
   final double? maxPrice;
   final bool? hasModel3D;
@@ -15,7 +15,7 @@ class ProductFilters {
   const ProductFilters({
     this.search,
     this.categoryId,
-    this.color,
+    this.colorId,
     this.minPrice,
     this.maxPrice,
     this.hasModel3D,
@@ -30,7 +30,7 @@ class ProductFilters {
   ProductFilters copyWith({
     String? search,
     String? categoryId,
-    String? color,
+    String? colorId,
     double? minPrice,
     double? maxPrice,
     bool? hasModel3D,
@@ -41,7 +41,7 @@ class ProductFilters {
     int? offset,
     bool clearSearch = false,
     bool clearCategoryId = false,
-    bool clearColor = false,
+    bool clearColorId = false,
     bool clearMinPrice = false,
     bool clearMaxPrice = false,
     bool clearHasModel3D = false,
@@ -52,7 +52,7 @@ class ProductFilters {
     return ProductFilters(
       search: clearSearch ? null : (search ?? this.search),
       categoryId: clearCategoryId ? null : (categoryId ?? this.categoryId),
-      color: clearColor ? null : (color ?? this.color),
+      colorId: clearColorId ? null : (colorId ?? this.colorId),
       minPrice: clearMinPrice ? null : (minPrice ?? this.minPrice),
       maxPrice: clearMaxPrice ? null : (maxPrice ?? this.maxPrice),
       hasModel3D: clearHasModel3D ? null : (hasModel3D ?? this.hasModel3D),
@@ -74,8 +74,8 @@ class ProductFilters {
     if (categoryId != null && categoryId!.isNotEmpty) {
       params['categoryId'] = categoryId!;
     }
-    if (color != null && color!.isNotEmpty) {
-      params['color'] = color!;
+    if (colorId != null && colorId!.isNotEmpty) {
+      params['colorId'] = colorId!;
     }
     if (minPrice != null) {
       params['minPrice'] = minPrice!.toString();
@@ -108,7 +108,7 @@ class ProductFilters {
   /// Verifica si hay filtros activos (excluyendo categoría)
   bool get hasActiveFilters =>
       search != null ||
-      color != null ||
+      colorId != null ||
       minPrice != null ||
       maxPrice != null ||
       hasModel3D != null ||
@@ -119,7 +119,7 @@ class ProductFilters {
   int get activeFiltersCount {
     int count = 0;
     if (search != null && search!.isNotEmpty) count++;
-    if (color != null && color!.isNotEmpty) count++;
+    if (colorId != null && colorId!.isNotEmpty) count++;
     if (minPrice != null || maxPrice != null) count++;
     if (hasModel3D != null) count++;
     if (status != null && status != 'active') count++; // 'active' es default
@@ -133,7 +133,7 @@ class ProductFilters {
   @override
   String toString() {
     return 'ProductFilters(search: $search, categoryId: $categoryId, '
-        'color: $color, minPrice: $minPrice, maxPrice: $maxPrice, '
+        'colorId: $colorId, minPrice: $minPrice, maxPrice: $maxPrice, '
         'hasModel3D: $hasModel3D, status: $status, sortBy: $sortBy, '
         'order: $order, limit: $limit, offset: $offset)';
   }
@@ -145,7 +145,7 @@ class ProductFilters {
     return other is ProductFilters &&
         other.search == search &&
         other.categoryId == categoryId &&
-        other.color == color &&
+        other.colorId == colorId &&
         other.minPrice == minPrice &&
         other.maxPrice == maxPrice &&
         other.hasModel3D == hasModel3D &&
@@ -161,7 +161,7 @@ class ProductFilters {
     return Object.hash(
       search,
       categoryId,
-      color,
+      colorId,
       minPrice,
       maxPrice,
       hasModel3D,

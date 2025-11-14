@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_1/core/models/product_filters.dart';
+import 'package:proyecto_1/core/models/color.dart';
+import 'package:proyecto_1/core/services/color_service.dart';
 
 class ProductFiltersDialog extends StatefulWidget {
   final ProductFilters initialFilters;
@@ -15,25 +17,16 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
   late TextEditingController _minPriceController;
   late TextEditingController _maxPriceController;
 
-  String? _selectedColor;
+  String? _selectedColorId; // Ahora guardamos el ID del color
+  List<ColorModel> _availableColors = []; // Colores desde el backend
+  bool _isLoadingColors = true;
+  bool _showAllColors = false; // Para controlar si mostrar todos los colores
   bool? _hasModel3D;
   String? _selectedStatus;
   String? _selectedSortBy;
   String? _selectedOrder;
 
-  // Colores disponibles (puedes ajustar según tu backend)
-  final List<String> _availableColors = [
-    'Negro',
-    'Blanco',
-    'Gris',
-    'Marrón',
-    'Beige',
-    'Azul',
-    'Verde',
-    'Rojo',
-    'Amarillo',
-    'Naranja',
-  ];
+  ColorService? _colorService;
 
   // Opciones de ordenamiento
   final Map<String, String> _sortOptions = {
@@ -61,11 +54,39 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
     _maxPriceController = TextEditingController(
       text: widget.initialFilters.maxPrice?.toString() ?? '',
     );
-    _selectedColor = widget.initialFilters.color;
+    _selectedColorId = widget.initialFilters.colorId;
     _hasModel3D = widget.initialFilters.hasModel3D;
     _selectedStatus = widget.initialFilters.status ?? 'active';
     _selectedSortBy = widget.initialFilters.sortBy;
     _selectedOrder = widget.initialFilters.order;
+
+    // Cargar colores desde el backend
+    _loadColors();
+  }
+
+  Future<void> _loadColors() async {
+    try {
+      _colorService = ColorService();
+      final colors = await _colorService!.getAllColors();
+      if (mounted) {
+        setState(() {
+          _availableColors = colors;
+          _isLoadingColors = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoadingColors = false;
+        });
+      }
+      // Opcional: mostrar un snackbar de error
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error al cargar colores: $e')));
+      }
+    }
   }
 
   @override
@@ -73,6 +94,7 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
     _searchController.dispose();
     _minPriceController.dispose();
     _maxPriceController.dispose();
+    _colorService?.dispose();
     super.dispose();
   }
 
@@ -81,7 +103,7 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
       search: _searchController.text.trim().isEmpty
           ? null
           : _searchController.text.trim(),
-      color: _selectedColor,
+      colorId: _selectedColorId, // Usar colorId en lugar de color
       minPrice: _minPriceController.text.trim().isEmpty
           ? null
           : double.tryParse(_minPriceController.text.trim()),
@@ -102,12 +124,25 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
       _searchController.clear();
       _minPriceController.clear();
       _maxPriceController.clear();
-      _selectedColor = null;
+      _selectedColorId = null; // Limpiar colorId
       _hasModel3D = null;
       _selectedStatus = 'active';
       _selectedSortBy = null;
       _selectedOrder = null;
     });
+  }
+
+  /// Parsea un código hexadecimal a Color
+  Color _parseHexColor(String hexCode) {
+    try {
+      final hex = hexCode.replaceAll('#', '');
+      if (hex.length == 6) {
+        return Color(int.parse('FF$hex', radix: 16));
+      }
+      return Colors.grey; // Color por defecto si el formato es incorrecto
+    } catch (e) {
+      return Colors.grey;
+    }
   }
 
   @override
@@ -177,22 +212,82 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
                     // Color
                     _buildSectionTitle('Color', Icons.palette),
                     const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: _availableColors.map((color) {
-                        final isSelected = _selectedColor == color;
-                        return FilterChip(
-                          label: Text(color),
-                          selected: isSelected,
-                          onSelected: (selected) {
-                            setState(() {
-                              _selectedColor = selected ? color : null;
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
+                    _isLoadingColors
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : _availableColors.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text(
+                              'No hay colores disponibles',
+                              style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children:
+                                    (_showAllColors
+                                            ? _availableColors
+                                            : _availableColors.take(6))
+                                        .map((color) {
+                                          final isSelected =
+                                              _selectedColorId == color.id;
+                                          return FilterChip(
+                                            label: Text(color.name),
+                                            avatar: color.hexCode != null
+                                                ? CircleAvatar(
+                                                    backgroundColor:
+                                                        _parseHexColor(
+                                                          color.hexCode!,
+                                                        ),
+                                                    radius: 12,
+                                                  )
+                                                : null,
+                                            selected: isSelected,
+                                            onSelected: (selected) {
+                                              setState(() {
+                                                _selectedColorId = selected
+                                                    ? color.id
+                                                    : null;
+                                              });
+                                            },
+                                          );
+                                        })
+                                        .toList(),
+                              ),
+                              if (_availableColors.length > 6) ...[
+                                const SizedBox(height: 8),
+                                TextButton.icon(
+                                  onPressed: () {
+                                    setState(() {
+                                      _showAllColors = !_showAllColors;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _showAllColors
+                                        ? Icons.expand_less
+                                        : Icons.expand_more,
+                                  ),
+                                  label: Text(
+                                    _showAllColors
+                                        ? 'Ver menos'
+                                        : 'Ver más (${_availableColors.length - 6} más)',
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                     const SizedBox(height: 24),
 
                     // Rango de precio

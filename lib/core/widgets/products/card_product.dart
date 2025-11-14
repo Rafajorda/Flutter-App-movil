@@ -62,7 +62,6 @@ class ProductCard extends StatelessWidget {
                         );
                       },
                       errorBuilder: (context, error, stackTrace) {
-                        print('Error cargando imagen: $error');
                         return Container(
                           height: 160,
                           color: Colors.grey[200],
