@@ -69,107 +69,93 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.loc?.login ?? 'Login'),
-        // Siempre mostrar botón de retroceso (login es opcional)
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+    return PopScope(
+      // Permitir volver atrás con el botón de hardware solo si no está cargando
+      canPop: !authState.isLoading,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(context.loc?.login ?? 'Login'),
+          // Mostrar botón de retroceso solo si no está cargando
+          automaticallyImplyLeading: !authState.isLoading,
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Campo de email
-            TextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              enabled: !authState.isLoading,
-              decoration: InputDecoration(
-                labelText: context.loc?.email ?? 'Email',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.email),
+        body: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Campo de email
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                enabled: !authState.isLoading,
+                decoration: InputDecoration(
+                  labelText: context.loc?.email ?? 'Email',
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.email),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Campo de contraseña
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              enabled: !authState.isLoading,
-              decoration: InputDecoration(
-                labelText: context.loc?.password ?? 'Password',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.lock),
+              // Campo de contraseña
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                enabled: !authState.isLoading,
+                decoration: InputDecoration(
+                  labelText: context.loc?.password ?? 'Password',
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock),
+                ),
+                onSubmitted: (_) => _handleLogin(),
               ),
-              onSubmitted: (_) => _handleLogin(),
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-            // Botón de login
-            SizedBox(
-              width: double.infinity,
-              child: authState.isLoading
-                  ? ElevatedButton(
-                      onPressed: null,
-                      child: const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
+              // Botón de login
+              SizedBox(
+                width: double.infinity,
+                child: authState.isLoading
+                    ? ElevatedButton(
+                        onPressed: null,
+                        child: const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
                         ),
+                      )
+                    : GeneralButton(
+                        label: context.loc?.login ?? 'Login',
+                        onPressed: _handleLogin,
+                        icon: Icons.login,
                       ),
-                    )
-                  : GeneralButton(
-                      label: context.loc?.login ?? 'Login',
-                      onPressed: _handleLogin,
-                      icon: Icons.login,
-                    ),
-            ),
+              ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Enlace a registro
-            TextButton(
-              onPressed: authState.isLoading
-                  ? null
-                  : () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      );
-                    },
-              child: Text(
-                context.loc?.noAccount ?? "Don't have an account? Sign up",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
+              // Enlace a registro
+              TextButton(
+                onPressed: authState.isLoading
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RegisterPage(),
+                          ),
+                        );
+                      },
+                child: Text(
+                  context.loc?.noAccount ?? "Don't have an account? Sign up",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 8),
-
-            // Botón "Cancelar" para volver (siempre visible - login es opcional)
-            TextButton(
-              onPressed: authState.isLoading
-                  ? null
-                  : () => Navigator.pop(context),
-              child: Text(
-                context.loc?.cancel ?? 'Cancel',
-                style: TextStyle(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.6),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

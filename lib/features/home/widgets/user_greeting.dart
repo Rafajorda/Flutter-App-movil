@@ -46,7 +46,7 @@ class _UserGreetingState extends ConsumerState<UserGreeting> {
           gradient: LinearGradient(
             colors: [
               theme.colorScheme.primary,
-              theme.colorScheme.primary.withOpacity(0.7),
+              theme.colorScheme.primary.withValues(alpha: 0.7),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -83,7 +83,9 @@ class _UserGreetingState extends ConsumerState<UserGreeting> {
                     Text(
                       authState.userEmail!,
                       style: TextStyle(
-                        color: theme.colorScheme.onPrimary.withOpacity(0.8),
+                        color: theme.colorScheme.onPrimary.withValues(
+                          alpha: 0.8,
+                        ),
                         fontSize: 12,
                       ),
                       overflow: TextOverflow.ellipsis,
