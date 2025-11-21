@@ -68,7 +68,7 @@ flutter:
   generate: true
   assets:
     - assets/3d/radio.glb
-    - assets/images/placeholder.png
+    - assets/images/Placeholder.png
     - assets/data/products.json
     - assets/data/categories.json
 localization:
